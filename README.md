@@ -8,6 +8,37 @@ You can validate digital certificates compliance using JSON Schema by representi
 
 To use this work in practice, you would simply extract the certificate details into a JSON object, validate the JSON object against the proposed schema using a validator library (for instance, Ajv in JavaScript or jsonschema in Python) and finally use the validation results to enforce compliance rules. This approach ensures that digital certificates are programmatically verified for consistency with the expected compliance format.
 
+## Installation
+
+It is suggested that you use a virtual environment for the installation. However, for packages that might be useful system-wide, you might also decide to install it without the use of a virtual environment. In case you want to use a virtual environment, you can setup one and activate it quite easily before installing the package and dependencies:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+```
+
+You can install the package from PyPI using pip:
+
+```bash
+pip install x509-json-schema
+```
+
+Alternatively, if you prefer to install from source, clone the repository and install using pip:
+
+```bash
+git clone https://github.com/yourusername/x509-json-schema.git
+cd x509-json-schema
+pip install .
+```
+
+Once installed, you can use the command-line tool as follows:
+
+```bash
+pki-check path/to/certificate.cer [ --output path/to/output.json]
+```
+
+The `pki-check` command validates a digital certificate using the included JSON schema. Use the `--output` (or `-o`) flag to save the certificate’s JSON representation to a file.
+
 ## Explanation of the Schema
 
 The proposed schema is quite simple and focuses on the core definitions for X.509 certificates. Here's the main elements of the schema that are of interest to better understand its usage and how to extend it, if needed:
@@ -184,6 +215,6 @@ Here are a few examples of X.509 certificates represented in JSON format, based 
 
 ## Notes on Examples
 
-The value fields in the extensions array are placeholders. In a real-world scenario, these would contain the DER-encoded values of the respective extensions. These examples are based on the profiles for Root CA, Device CA, and Code Verification certificates.
+The value fields in the extensions array are placeholders. In a real-world scenario, these would contain the DER-encoded values of the respective extensions. These examples are focused on common use-cases such as Root CAs, Device CAs, and Code Verification certificates. More examples will be developed in the future.
 
-This schema and the examples should give you a solid foundation for working with X.509 certificates in JSON format.
+This schema and the examples should give you a solid foundation for working with X.509 certificates in JSON format and will be used as the basis for our experimental policy validation system.
