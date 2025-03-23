@@ -136,6 +136,7 @@ Here are a few examples of X.509 certificates represented in JSON format, based 
 
 ### Example 3: Code Verification Certificate
 
+```json
 {
   "version": 3,
   "serialNumber": "11223",
@@ -179,6 +180,7 @@ Here are a few examples of X.509 certificates represented in JSON format, based 
     }
   ]
 }
+```
 
 ## Notes on Examples
 
