@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "X.509 Certificate",
+    "description": "JSON schema for representing X.509 certificates",
+    "type": "object",
+    "properties": {
+      "version": {
+        "type": "integer",
+        "description": "Version of the X.509 certificate (e.g., v3 = 2)",
+        "minimum": 1,
+        "maximum": 3
+      },
+      "serialNumber": {
+        "type": "string",
+        "description": "Unique positive integer assigned by the CA",
+        "pattern": "^(0x)[0-9a-fA-F]+$"
+      },
+      "issuer": {
+        "type": "object",
+        "description": "Distinguished Name (DN) of the certificate issuer",
+        "properties": {
+          "country": { "type": "string", "description": "2-character country code [ISO 3166]", "maxLength": 2 },
+          "organization": { "type": "string", "maxLength": 64 },
+          "state": { "type": "string", "maxLength": 64 },
+          "locality": { "type": "string", "maxLength": 64 },
+          "streetAddress": { "type": "string", "maxLength": 128 },
+          "postalCode": { "type": "string", "maxLength": 16 },
+          "emailAddress": { "type": "string", "format": "email" },
+          "domainComponent": { "type": "string", "maxLength": 64 },
+          "organizationalUnit": { "type": "string", "maxLength": 64 },
+          "commonName": { "type": "string", "maxLength": 64 }
+        },
+        "required": []
+      },
+      "subject": {
+        "type": "object",
+        "description": "Distinguished Name (DN) of the certificate subject",
+        "properties": {
+          "country": { "type": "string", "description": "2-character country code [ISO 3166]", "maxLength": 2 },
+          "organization": { "type": "string", "maxLength": 64 },
+          "state": { "type": "string", "maxLength": 64 },
+          "locality": { "type": "string", "maxLength": 64 },
+          "streetAddress": { "type": "string", "maxLength": 128 },
+          "postalCode": { "type": "string", "maxLength": 16 },
+          "emailAddress": { "type": "string", "format": "email" },
+          "domainComponent": { "type": "string", "maxLength": 64 },
+          "organizationalUnit": { "type": "string", "maxLength": 64 },
+          "commonName": { "type": "string", "maxLength": 64 }
+        },
+        "required": []
+      },
+      "validity": {
+        "type": "object",
+        "description": "Validity period of the certificate",
+        "properties": {
+          "notBefore": { "type": "string", "format": "date-time" },
+          "notAfter": { "type": "string", "format": "date-time" }
+        },
+        "required": ["notBefore", "notAfter"]
+      },
+      "publicKeyInfo": {
+        "type": "object",
+        "description": "Information about the public key",
+        "properties": {
+          "algorithm": {
+            "type": "string", 
+            "enum": ["RSA", "EC", "id-Ed25519", "id-Ed448"],
+            "description": "Public key algorithm"
+          },
+          "keyLength": { "type": "integer", "description": "Length of the public key (e.g., 2048, 3072, 4096 for RSA)" },
+          "parameters": { "type": "string", "description": "Algorithm parameters (e.g., NONE for RSA)" }
+        },
+        "required": ["algorithm"]
+      },
+      "signatureAlgorithm": {
+        "type": "string",
+        "description": "Signature algorithm used by the CA (e.g., Sha256WithRSAEncryption)"
+      },
+      "extensions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "oid": { "type": "string", "description": "Object Identifier for the extension" },
+            "critical": { "type": "boolean", "description": "Indicates if the extension is critical" },
+            "value": { "type": "string", "description": "Value of the extension (DER-encoded)" }
+          },
+          "required": ["oid", "critical", "value"]
+        }
+      }
+    },
+    "required": ["version", "serialNumber", "issuer", "validity", "publicKeyInfo", "signatureAlgorithm"]
+  }
